@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Bounce, ToastContainer } from "react-toastify";
+
 import "./globals.css";
+import { TRPCProvider } from "@/trpc/client";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,10 +28,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick={false}
+          rtl={false}
+          pauseOnFocusLoss={false}
+          draggable
+          pauseOnHover={false}
+          theme="dark"
+          transition={Bounce}
+        />
+        <TRPCProvider>{children}</TRPCProvider>
       </body>
     </html>
   );
