@@ -1,8 +1,11 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { Github } from "lucide-react";
+import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
+
 import {
   Card,
   CardContent,
@@ -13,12 +16,11 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Github, Facebook } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { useForm } from "react-hook-form";
+
 import { authClient } from "@/utils/betterAuth/client";
-import { toast } from "react-toastify";
 
 type Provider =
   | "github"
@@ -81,6 +83,7 @@ export default function LoginPage() {
             console.log("Error logging in with social", context);
           },
         },
+        callbackURL: process.env.NEXT_PUBLIC_DEFAULT_AFTER_LOGIN_URL ?? "/",
       })
       .finally(() => {
         setIsLoading(false);

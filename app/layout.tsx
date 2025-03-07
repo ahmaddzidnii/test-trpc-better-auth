@@ -1,19 +1,16 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+import { Geologica } from "next/font/google";
+import NextTopLoader from "nextjs-toploader";
 import { Bounce, ToastContainer } from "react-toastify";
 
-import "./globals.css";
 import { TRPCProvider } from "@/trpc/client";
+import { cn } from "@/lib/utils";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+import "./globals.css";
+
+const geologica = Geologica({
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
@@ -28,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={cn("antialiased", geologica.className)}>
         <ToastContainer
           position="top-right"
           autoClose={5000}
@@ -42,6 +39,7 @@ export default function RootLayout({
           theme="dark"
           transition={Bounce}
         />
+        <NextTopLoader />
         <TRPCProvider>{children}</TRPCProvider>
       </body>
     </html>
