@@ -12,7 +12,7 @@ export const createTRPCContext = cache(async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
-  return { user: session?.user };
+  return { user: session?.user, sessionToken: session?.session.token };
 });
 
 export type Context = Awaited<ReturnType<typeof createTRPCContext>>;

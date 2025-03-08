@@ -1,5 +1,6 @@
 import { headers } from "next/headers";
 import { Mail, User } from "lucide-react";
+import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
 
@@ -7,7 +8,6 @@ import { LogoutButton } from "@/modules/auth/ui/components/LogoutButton";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { RevokeSessionButton } from "@/modules/auth/ui/components/RevokeSessionButton";
-import { redirect } from "next/navigation";
 
 const formatUserAgent = (uaString: string | null | undefined) => {
   if (!uaString) return null;
@@ -43,7 +43,6 @@ const Page = async () => {
   }
   const user = session!.user;
 
-  // make active sessions in front of the list use current session id
   const filteredSessions = sessions.filter((s) => s.id !== session.session.id);
   const currentSession = sessions.find((s) => s.id === session.session.id);
   const orderedSessions = currentSession ? [currentSession, ...filteredSessions] : filteredSessions;

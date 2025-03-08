@@ -2,8 +2,8 @@
 
 import { toast } from "react-toastify";
 
+import { trpc } from "@/trpc/client";
 import { Button } from "@/components/ui/button";
-import { authClient } from "@/utils/betterAuth/client";
 
 interface RevokeSessionButtonProps {
   token: string;
@@ -16,18 +16,14 @@ export const RevokeSessionButton = ({
   currentSession,
   sessionId,
 }: RevokeSessionButtonProps) => {
+  const revokeMutation = trpc.auth.revokeSessionByToken.useMutation();
   const handleRevoke = () => {
     if (sessionId === currentSession) return;
-    toast.promise(
-      authClient.revokeSession({
-        token: token,
-      }),
-      {
-        error: "Failed to revoke session",
-        success: "Session revoked",
-        pending: "Revoking session...",
-      }
-    );
+    toast.promise(revokeMutation.mutateAsync({ token }), {
+      error: "Failed to revoke session",
+      success: "Session revoked",
+      pending: "Revoking session...",
+    });
   };
   return (
     <Button
