@@ -8,18 +8,19 @@ interface HomeTemplateProps {
 }
 const HomeTemplate = async ({ children }: HomeTemplateProps) => {
   const requestHeaders = await headers();
-
-  const session = await auth.api.getSession({
-    headers: requestHeaders,
-  });
-
   let redirectUrl = new URL("/auth/login", `${requestHeaders.get("x-url")}`);
 
-  const callbackUrl = `${requestHeaders.get("x-url")}`;
+  // const callbackUrl = `${requestHeaders.get("x-url")}`;
 
-  if (callbackUrl) {
-    redirectUrl.searchParams.append("callbackUrl", btoa(callbackUrl));
-  }
+  // if (callbackUrl) {
+  //   redirectUrl.searchParams.append("callbackUrl", btoa(callbackUrl));
+  // }
+
+  const [session] = await Promise.all([
+    auth.api.getSession({
+      headers: requestHeaders,
+    }),
+  ]);
 
   if (!session) {
     return redirect(redirectUrl.toString());
